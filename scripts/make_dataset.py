@@ -8,7 +8,9 @@ from dateutil.relativedelta import *
 import time
 
 # Replace with your New York Times API Key
-API_KEY = 'XXXXXXXXXXXX'
+with open(f'{os.getcwd()}/api_key.txt', 'r') as api:
+    API_KEY = api.read()
+    print(f'API Key:\t{API_KEY}')
 
 categories = [
     'Business Day',

@@ -2,7 +2,12 @@
 ## Developer: Keese Phillips
 
 ## About:
-The purpose of this project is to accurately classify dog breeds for veterinarians. This will help vet clinics to properly stock up on supplies, medicines, and vaccinations before visits and checkups on dog breeds they will see most in a week. Some individuals do not know what breed their dog is and will inaccurately provide the vet clinic with the wrong breed. This can cause the vet clinic to buy vaccines or medication that is meant for smaller or larger-weight dogs. The project's goal is to just have the patients upload a picture of the dog and output the dog breed so that they can accurately provide the vet clinic with the correct breed. 
+The purpose of this project is to determine the sentiment for topics throughout the past year and a half. The model 
+ingests data via the New York Times API and employs the model to determine the sentiment for the topics within
+the articles released on a monthly basis. The model will display the best and worst sentiment for articles
+throughout the month and will display the topics associated within the article. The model will also display the 
+sentiment score for the article/topics which is calculated as the difference between the positive sentiment
+score and the negative sentiment score for the associated article/topic.
 
 ## How to run the project
 ```bash
@@ -14,8 +19,9 @@ streamlit run main.py
 2. You will then need to run setup.py to create the data pipeline and train the model
 3. You will then need to run the frontend to use the model
 
-## [Data source](http://vision.stanford.edu/aditya86/ImageNetDogs/)
-The data used to train the model was provided by Stanford University. With large thanks to Khosla Aditya,  Jayadevaprakash Nityananda, Yao Bangpeng, and Fei-Fei Li. 
+## [Data source](https://huggingface.co/datasets/stanfordnlp/sst2)
+The data used to train the model was provided by Stanford University. As per their dataset description:
+> The Stanford Sentiment Treebank is a corpus with fully labeled parse trees that allows for a complete analysis of the compositional effects of sentiment in language. The corpus is based on the dataset introduced by Pang and Lee (2005) and consists of 11,855 single sentences extracted from movie reviews. It was parsed with the Stanford parser and includes a total of 215,154 unique phrases from those parse trees, each annotated by 3 human judges.
 
 ## Contributions
 Brinnae Bent   
