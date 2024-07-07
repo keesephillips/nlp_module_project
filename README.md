@@ -15,9 +15,10 @@ pip install -r requirements.txt
 python setup.py
 streamlit run main.py
 ```
-1. You will need to install all of the necessary packages to run the setup.py script beforehand
-2. You will then need to run setup.py to create the data pipeline and train the model
-3. You will then need to run the frontend to use the model
+1. You will need to create and store a New York Times API Key within the api_key.txt file
+2. You will need to install all of the necessary packages to run the setup.py script beforehand
+3. You will then need to run setup.py to create the data pipeline and train the model
+4. You will then need to run the frontend to use the model
 
 ## [Data source](https://huggingface.co/datasets/stanfordnlp/sst2)
 The data used to train the model was provided by Stanford University. As per their dataset description:
