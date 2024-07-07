@@ -7,7 +7,8 @@ from datetime import date
 from dateutil.relativedelta import *
 import time
 
-API_KEY = 'CHTCbuAHiAhAYlxD8mkLDE2m6QnNIVpG'
+# Replace with your New York Times API Key
+API_KEY = 'XXXXXXXXXXXX'
 
 categories = [
     'Business Day',
