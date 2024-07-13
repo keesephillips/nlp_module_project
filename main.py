@@ -6,7 +6,6 @@ Brinnae Bent
 
 """
 
-
 import streamlit as st
 from PIL import Image
 import numpy as np
@@ -16,46 +15,6 @@ import pandas as pd
 import pandas as pd
 import json
 import matplotlib.pyplot as plt
-
-def replace_json(x):
-    x = x.replace("'", "\"")
-    try:
-        return json.loads(x)
-    except:
-        return None
-
-def load_data(year, month, top_selection, category):
-    df = pd.read_csv(f'data/processed/{year}_{month}.csv')
-
-    if category != 'All':
-        df = df[df['news_desk'] == category]
-
-    df = df.sort_values(by='sentiment_score', ascending=False)
-    df['sentiment_score'] = round(df['sentiment_score'].astype(float), 4)
-    df['positive'] = df['positive'].astype(float)
-    df['negative'] = df['negative'].astype(float)
-    df['keywords'] = df['keywords'].apply(lambda x: replace_json(x))
-    
-    good_df = df.head(top_selection)
-    bad_df = df.tail(top_selection)
-    
-    good_df = good_df.explode('keywords')
-    bad_df = bad_df.explode('keywords')
-    
-    good_df = pd.concat([good_df.reset_index(drop=True), pd.json_normalize(good_df['keywords'])], axis=1)
-    bad_df = pd.concat([bad_df.reset_index(drop=True), pd.json_normalize(bad_df['keywords'])], axis=1)
-    
-    good_df.drop(columns=['keywords'], inplace=True)
-    bad_df.drop(columns=['keywords'], inplace=True)
-    
-    good_df.dropna(subset=['value'], inplace=True)
-    bad_df.dropna(subset=['value'], inplace=True)
-    
-    
-    good_df = good_df.drop_duplicates(subset=['value'])[['snippet','value','positive', 'sentiment_score']]
-    bad_df = bad_df.drop_duplicates(subset=['value'])[['snippet','value','negative','sentiment_score']]
-
-    return good_df, bad_df
 
 categories = [
     'All', 'Sports', 'Foreign', 'Styles', 'Washington', 'Business', 'Science',
@@ -89,6 +48,71 @@ months = {
     "Jun 2024": {"month": "6", "year": "2024"},
 }
     
+    
+def replace_json(json_string):
+    '''
+    Returns a json type
+
+    Inputs:
+        json_string: string that is json
+
+    Returns:
+        json_format: converted string into json
+    '''
+    json_string = json_string.replace("'", "\"")
+    try:
+        json_format = json.loads(json_string)
+        return json_format
+    except:
+        return None
+
+
+def load_data(year, month, top_selection, category):
+    '''
+    Loads the prefetched data from the output dir
+
+    Inputs:
+        year: year to load
+        month: month to load
+        top_selection: the top N results
+        category: category to filter on
+
+    Returns:
+        good_df: pandas DataFrame with the best sentiment score
+        bad_df: pandas DataFrame with the worst sentiment score
+    '''
+    df = pd.read_csv(f'data/output/{year}_{month}.csv')
+
+    if category != 'All':
+        df = df[df['news_desk'] == category]
+
+    df = df.sort_values(by='sentiment_score', ascending=False)
+    df['sentiment_score'] = round(df['sentiment_score'].astype(float), 4)
+    df['positive'] = df['positive'].astype(float)
+    df['negative'] = df['negative'].astype(float)
+    df['keywords'] = df['keywords'].apply(lambda x: replace_json(x))
+    
+    good_df = df.head(top_selection)
+    bad_df = df.tail(top_selection)
+    
+    good_df = good_df.explode('keywords')
+    bad_df = bad_df.explode('keywords')
+    
+    good_df = pd.concat([good_df.reset_index(drop=True), pd.json_normalize(good_df['keywords'])], axis=1)
+    bad_df = pd.concat([bad_df.reset_index(drop=True), pd.json_normalize(bad_df['keywords'])], axis=1)
+    
+    good_df.drop(columns=['keywords'], inplace=True)
+    bad_df.drop(columns=['keywords'], inplace=True)
+    
+    good_df.dropna(subset=['value'], inplace=True)
+    bad_df.dropna(subset=['value'], inplace=True)
+    
+    
+    good_df = good_df.drop_duplicates(subset=['value'])[['snippet','value','positive', 'sentiment_score']]
+    bad_df = bad_df.drop_duplicates(subset=['value'])[['snippet','value','negative','sentiment_score']]
+
+    return good_df, bad_df
+
 
 if __name__ == '__main__':
 

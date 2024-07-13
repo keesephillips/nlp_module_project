@@ -42,12 +42,24 @@ categories = [
 
 
 def get_archive(path,url,filename):
-  try:
-    os.mkdir(path)
-  except:
-    path=path
+    '''
+    Makes a request to the server and downloads the dataset used in the model 
+    in the form of a parquet file
 
-  urllib.request.urlretrieve(url,f"{path}/{filename}.parquet")
+    Inputs:
+        path: the filepath to save the parquet file to
+        url: the url to request from
+        filename: the name to use for the parquet file
+
+    Returns:
+
+    '''
+    try:
+        os.mkdir(path)
+    except:
+        path=path
+
+    urllib.request.urlretrieve(url,f"{path}/{filename}.parquet")
 
 
 if __name__ == '__main__':
